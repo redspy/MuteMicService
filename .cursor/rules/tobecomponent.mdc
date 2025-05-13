@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+UI가 추가되는 경우면 재사용이 가능하도록 UserControl로 분리해서 만들어줘.

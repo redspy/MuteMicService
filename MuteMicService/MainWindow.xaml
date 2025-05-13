@@ -4,9 +4,104 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MuteMicService"
+        xmlns:controls="clr-namespace:MuteMicService.Controls"
+        xmlns:vm="clr-namespace:MuteMicService.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Microphone Mute Service"
+        Height="250"
+        Width="400"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <local:BoolToMuteTextConverter x:Key="BoolToMuteTextConverter"/>
+        <local:BoolToButtonBrushConverter x:Key="BoolToButtonBrushConverter"/>
+        <local:StatusStateToColorConverter x:Key="StatusStateToColorConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+                   Text="Microphone Auto-Mute Service"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,16"/>
+
+        <!-- Status Display -->
+        <controls:StatusDisplay Grid.Row="1"
+                                Margin="0,0,0,16"
+                                StatusText="{Binding StatusText}"
+                                DetailText="{Binding DetailText}"
+                                StatusColor="{Binding StatusState, Converter={StaticResource StatusStateToColorConverter}}"/>
+
+        <!-- Microphone Info -->
+        <Border Grid.Row="2"
+                BorderBrush="#EEEEEE"
+                BorderThickness="1"
+                Padding="8"
+                Margin="0,0,0,16"
+                Background="#F8F8F8"
+                CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Microphone: "
+                               FontWeight="SemiBold"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding MicrophoneName}"
+                               TextTrimming="CharacterEllipsis"/>
+                </Grid>
+
+                <Grid Grid.Row="1"
+                      Margin="0,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Status: "
+                               FontWeight="SemiBold"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding IsMicrophoneMuted, Converter={StaticResource BoolToMuteTextConverter}}"/>
+                    <Button Grid.Column="2"
+                            Content="Refresh"
+                            Command="{Binding RefreshCommand}"
+                            Padding="8,2"
+                            MinWidth="70"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Spacer -->
+        <Grid Grid.Row="3"/>
+
+        <!-- Control Buttons -->
+        <Button Grid.Row="4"
+                Content="{Binding ServiceButtonText}"
+                Command="{Binding ToggleServiceCommand}"
+                HorizontalAlignment="Center"
+                Padding="16,8"
+                MinWidth="150"
+                Background="{Binding ServiceEnabled, Converter={StaticResource BoolToButtonBrushConverter}}"/>
     </Grid>
 </Window>

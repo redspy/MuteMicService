@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+WPF에서 구조화된 모습으로 항상 구현해야해. MVVM Pattern을 사용해서 View와 ViewModel은 잘 구분해주고, 필요한 기능이 있으면 재사용이 가능하도록 기능별로 Class 를 나눠줘.
